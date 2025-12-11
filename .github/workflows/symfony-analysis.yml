@@ -1,0 +1,35 @@
+name: SonarCloud Symfony
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Important pour l'historique
+
+      # 1. On installe PHP pour pouvoir installer les dépendances
+      # (Sonar a besoin que le projet soit valide)
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2' # Mets ta version de PHP ici
+          coverage: none
+
+      # 2. Installation des dépendances (sans les scripts pour aller vite)
+      - name: Install Dependencies
+        run: composer install --no-dev --no-progress --no-scripts
+
+      # 3. Lancement de l'analyse SonarCloud
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Fourni par GitHub
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    # Le même secret que pour Spring si c'est le même compte
