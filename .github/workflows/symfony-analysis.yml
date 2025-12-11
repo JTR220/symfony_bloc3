@@ -2,7 +2,7 @@ name: SonarCloud Symfony
 on:
   push:
     branches:
-      - main
+      - 8.1
   pull_request:
     types: [opened, synchronize, reopened]
 
