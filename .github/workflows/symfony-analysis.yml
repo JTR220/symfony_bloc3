@@ -20,7 +20,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2' # Mets ta version de PHP ici
+          php-version: '8.1' # Mets ta version de PHP ici
           coverage: none
 
       # 2. Installation des dépendances (sans les scripts pour aller vite)
